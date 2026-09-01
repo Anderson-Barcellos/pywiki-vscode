@@ -17,7 +17,7 @@ modelo a usar **somente** esse contexto. O que não está no código ou na docum
 1. **Tu seleciona** — uma palavra, uma chamada, um bloco. Com o cursor parado numa palavra, o PyWiki
    expande para o símbolo inteiro via `SelectionRange` do LSP.
 2. **O LSP entrega a evidência** — hover, assinatura, definição (preferindo o código do workspace ao
-   stub da biblioteca), e até 3 referências reais do projeto para servir de exemplo.
+   stub da biblioteca), e algumas referências reais do projeto (3 por padrão) para servir de exemplo.
 3. **O modelo organiza a wiki** — em markdown, seguindo uma hierarquia fixa e regras rígidas
    anti-invenção. Renderiza com syntax highlight na sidebar.
 4. **Cache local** — o mesmo símbolo com o mesmo contexto não gera nova chamada. Uma consulta típica
@@ -55,7 +55,9 @@ liga `selwiki.autoExplain` (e, opcionalmente, `selwiki.explainOnCursor`).
 | `selwiki.debounceMs` | `500` | Espera após a última mudança de seleção no modo automático |
 | `selwiki.maxSelectedChars` | `8000` | Teto do texto selecionado enviado ao modelo |
 | `selwiki.maxDefinitionChars` | `4000` | Teto do corpo da definição (stubs de biblioteca são cortados em 1500) |
-| `selwiki.maxUsageChars` | `300` | Teto de cada uso real do projeto (até 3) usado como evidência dos exemplos |
+| `selwiki.maxUsageChars` | `300` | Teto de cada uso real do projeto (±2 linhas ao redor da chamada) usado como evidência dos exemplos |
+| `selwiki.maxUsages` | `3` | Quantos usos reais entram como evidência (1–10) |
+| `selwiki.maxHoverChars` | `2500` | Teto do hover do language server — docstrings gigantes de biblioteca são cortadas aqui |
 
 ## O que chega na wiki
 
@@ -73,7 +75,7 @@ Seções sem evidência são omitidas, não preenchidas com chute.
 ## Privacidade
 
 Sai da tua máquina apenas o pacote de contexto montado a partir do LSP: o trecho selecionado, hover,
-assinatura, a definição (com os tetos acima) e até 3 linhas de cada uso escolhido. Nada é enviado
+assinatura, a definição (com os tetos acima) e 5 linhas de cada uso escolhido. Nada é enviado
 sem tu apertar o atalho (ou ligar o modo automático de propósito). A chave fica no SecretStorage.
 
 ## Desenvolvimento

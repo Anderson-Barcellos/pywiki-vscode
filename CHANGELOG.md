@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.2 — 2026-09-01
+- Teto no hover do language server (`selwiki.maxHoverChars`, 2500) — era o único trecho do contexto sem cap.
+- Usos reais com ±2 linhas de contexto (antes ±1) e quantidade configurável (`selwiki.maxUsages`, padrão 3).
+
 ## 0.6.1 — 2026-09-01
 - `selwiki.autoExplain` agora vem **desligado** de fábrica: o gatilho principal é `Ctrl+Alt+W`.
 - "O que faz" em prosa narrativa simples; "Parâmetros" ganhou um parágrafo sobre como os argumentos se combinam.

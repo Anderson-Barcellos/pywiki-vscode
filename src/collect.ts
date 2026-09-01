@@ -87,13 +87,12 @@ async function extractDefinition(
   };
 }
 
-const USAGE_MAX = 3;
-
 async function collectUsages(
   uri: vscode.Uri,
   pos: vscode.Position,
   definitionPath: string,
   maxChars: number,
+  maxUsages: number,
 ): Promise<UsagePack[]> {
   let refs: vscode.Location[] | undefined;
   try {
@@ -108,13 +107,13 @@ async function collectUsages(
   const candidates = (refs ?? [])
     .filter((ref) => ref?.uri && ref.range)
     .map((ref) => ({ path: ref.uri.fsPath, line: ref.range.start.line, uri: ref.uri }));
-  const picked = selectUsages(candidates, { definitionPath, max: USAGE_MAX });
+  const picked = selectUsages(candidates, { definitionPath, max: maxUsages });
   const out: UsagePack[] = [];
   for (const ref of picked) {
     try {
       const doc = await vscode.workspace.openTextDocument(ref.uri);
-      const from = Math.max(0, ref.line - 1);
-      const to = Math.min(doc.lineCount - 1, ref.line + 1);
+      const from = Math.max(0, ref.line - 2);
+      const to = Math.min(doc.lineCount - 1, ref.line + 2);
       const text = doc.getText(new vscode.Range(from, 0, to, doc.lineAt(to).text.length));
       out.push({ path: ref.path, line: ref.line, text: cap(text, maxChars) });
     } catch {
@@ -129,7 +128,10 @@ export async function collectSelectionContext(
   maxSelected: number,
   maxDefinition: number,
   maxUsageChars = 300,
+  opts: { maxHoverChars?: number; maxUsages?: number } = {},
 ): Promise<LspPack> {
+  const maxHoverChars = opts.maxHoverChars ?? 2500;
+  const maxUsages = opts.maxUsages ?? 3;
   const doc = editor.document;
   const sel = editor.selection;
   let range: vscode.Range = sel.isEmpty
@@ -198,14 +200,14 @@ export async function collectSelectionContext(
   }
 
   const usages = definition
-    ? await collectUsages(doc.uri, pos, definition.path, maxUsageChars)
+    ? await collectUsages(doc.uri, pos, definition.path, maxUsageChars, maxUsages)
     : [];
 
   return {
     languageId: doc.languageId,
     fileName: doc.uri.fsPath,
     selectedText: cap(doc.getText(range), maxSelected),
-    hoverText: flattenHover(hovers),
+    hoverText: cap(flattenHover(hovers), maxHoverChars),
     signatureText: formatSignature(sig),
     definition,
     usages,

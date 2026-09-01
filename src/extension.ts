@@ -70,6 +70,10 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
         cfg.get("maxSelectedChars", 8000),
         cfg.get("maxDefinitionChars", 4000),
         cfg.get("maxUsageChars", 300),
+        {
+          maxHoverChars: cfg.get("maxHoverChars", 2500),
+          maxUsages: cfg.get("maxUsages", 3),
+        },
       );
     } catch (error) {
       provider.showError(error instanceof Error ? error.message : String(error));

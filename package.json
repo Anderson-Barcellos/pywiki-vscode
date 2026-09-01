@@ -2,7 +2,7 @@
   "name": "selwiki",
   "displayName": "PyWiki",
   "description": "Wiki confiável do símbolo selecionado: contexto LSP, evidência da fonte e GPT-5.6 Luna na sidebar.",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "publisher": "anders",
   "icon": "media/icon.png",
   "private": true,
@@ -118,7 +118,19 @@
         "selwiki.maxUsageChars": {
           "type": "number",
           "default": 300,
-          "description": "Teto de cada uso real do workspace (até 3) enviado como evidência para os exemplos."
+          "description": "Teto de cada uso real do workspace enviado como evidência para os exemplos (±2 linhas ao redor da chamada)."
+        },
+        "selwiki.maxUsages": {
+          "type": "number",
+          "default": 3,
+          "minimum": 1,
+          "maximum": 10,
+          "description": "Quantos usos reais do workspace entram como evidência dos exemplos."
+        },
+        "selwiki.maxHoverChars": {
+          "type": "number",
+          "default": 2500,
+          "description": "Teto do texto de hover do language server enviado ao modelo (docstrings enormes de biblioteca são cortadas aqui)."
         }
       }
     }
