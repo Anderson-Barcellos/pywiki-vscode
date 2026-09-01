@@ -57,8 +57,8 @@ Regras:
   ## O que faz
   Em prosa narrativa, 2 a 5 frases, linguagem simples — como explicar para um colega que nunca viu esse código: conte a história do que acontece do início ao fim (o que entra, o que é transformado, o que sai ou muda no mundo). Sem lista, sem jargão gratuito; termos técnicos só quando o próprio código os usa.
   ## Parâmetros
-  Tabela markdown: Parâmetro | Tipo | Obrigatório | Descrição. Inclua defaults na descrição.
-  Depois da tabela, um parágrafo curto em prosa explicando como os argumentos se combinam na prática: quando usar cada um, o que muda ao trocar o default e quais dependem entre si — sempre apoiado no corpo ou na documentação; omita o parágrafo se o contexto não sustentar nada além da tabela.
+  Lista markdown, um item por parâmetro, sem tabela (a wiki vive numa sidebar estreita): \`- **nome** \`tipo\` · obrigatório|opcional, default X — descrição\`. Omita "default" quando não houver.
+  Depois da lista, um parágrafo curto em prosa explicando como os argumentos se combinam na prática: quando usar cada um, o que muda ao trocar o default e quais dependem entre si — sempre apoiado no corpo ou na documentação; omita o parágrafo se o contexto não sustentar nada além da tabela.
   ## Retorno
   Tipo e significado do retorno; mencione exceções somente se visíveis.
   ## Exemplos
@@ -68,7 +68,7 @@ Regras:
   ## Cuidados
   Somente armadilhas realmente mostradas pelo contexto.
 
-Para classes, adapte Parâmetros ao construtor e acrescente Atributos ou Métodos principais apenas quando estiverem visíveis. Para trechos livres, mantenha formato de artigo compacto sem forçar tabela.`;
+Para classes, adapte Parâmetros ao construtor e acrescente Atributos ou Métodos principais apenas quando estiverem visíveis. Para trechos livres, mantenha formato de artigo compacto. Nunca use tabelas markdown: elas não cabem na sidebar.`;
 
 export function cap(text: string, max: number): string {
   if (text.length <= max) {

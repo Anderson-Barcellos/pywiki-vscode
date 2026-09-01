@@ -1,8 +1,8 @@
 {
   "name": "selwiki",
   "displayName": "PyWiki",
-  "description": "Wiki confiável do símbolo selecionado: contexto LSP, evidência da fonte e GPT-5.6 Luna na sidebar.",
-  "version": "0.6.2",
+  "description": "Evidence-based wiki for the symbol under your cursor: LSP context + real project usages, explained by an LLM in the sidebar. No hallucinated params.",
+  "version": "0.6.3",
   "publisher": "anders",
   "icon": "media/icon.png",
   "private": true,
@@ -151,5 +151,18 @@
     "dompurify": "^3.2.6",
     "highlight.js": "11.12.0",
     "marked": "^15.0.12"
-  }
+  },
+  "license": "MIT",
+  "keywords": [
+    "python",
+    "documentation",
+    "wiki",
+    "lsp",
+    "openai",
+    "code-explanation",
+    "ai",
+    "pylance",
+    "docstring",
+    "symbol"
+  ]
 }

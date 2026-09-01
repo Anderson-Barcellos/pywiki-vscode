@@ -226,3 +226,9 @@ test("prompt pede prosa narrativa simples no 'O que faz' e explicação dos argu
   assert.match(SYSTEM_PROMPT, /linguagem simples/i);
   assert.match(SYSTEM_PROMPT, /## Parâmetros\n(?:[^\n]*\n){1,3}[^\n]*(?:parágrafo|prosa)/i);
 });
+
+test("prompt pede lista empilhada de parâmetros, não tabela (cabe em sidebar estreita)", () => {
+  assert.match(SYSTEM_PROMPT, /## Parâmetros\n[^\n]*lista/i);
+  assert.doesNotMatch(SYSTEM_PROMPT, /Tabela markdown/i);
+  assert.match(SYSTEM_PROMPT, /sem tabela/i);
+});

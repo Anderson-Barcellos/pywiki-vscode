@@ -396,10 +396,10 @@ export class WikiViewProvider implements vscode.WebviewViewProvider {
       border-spacing: 0;
       border: 1px solid var(--vscode-panel-border, rgba(127,127,127,.28));
       border-radius: 6px;
-      font-size: .92em;
+      font-size: .86em;
     }
     #content th, #content td {
-      padding: 7px 9px;
+      padding: 5px 7px;
       border-right: 1px solid var(--vscode-panel-border, rgba(127,127,127,.2));
       border-bottom: 1px solid var(--vscode-panel-border, rgba(127,127,127,.2));
       text-align: left;
@@ -504,6 +504,14 @@ export class WikiViewProvider implements vscode.WebviewViewProvider {
     #idle {
       padding: 32px 16px 24px;
       overflow: hidden;
+    }
+    .landing-logo {
+      display: block;
+      width: 72px;
+      height: 72px;
+      margin: 0 0 18px;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.28);
     }
     .landing h1 {
       max-width: 330px;
@@ -712,6 +720,7 @@ export class WikiViewProvider implements vscode.WebviewViewProvider {
     </div>
   </div>
   <div id="idle" class="landing">
+    <img class="landing-logo" src="${iconUri}" alt="PyWiki" width="72" height="72" />
     <h1>Entenda qualquer símbolo sem sair do código.</h1>
     <p class="landing-intro">Selecione uma função, classe, builtin ou trecho. O PyWiki cruza LSP e fonte; o Luna escreve uma wiki verificável.</p>
     <div class="landing-flow" aria-label="Como o PyWiki funciona">

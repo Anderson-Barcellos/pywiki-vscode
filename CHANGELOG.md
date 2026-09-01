@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.3 — 2026-09-01
+- "Parâmetros" vira lista empilhada (um item por parâmetro) em vez de tabela — a tabela de 4 colunas não cabia em sidebar estreita. Tabelas que ainda aparecerem ficam mais compactas.
+- Ícone do PyWiki em destaque (72px) no topo da página inicial.
+
 ## 0.6.2 — 2026-09-01
 - Teto no hover do language server (`selwiki.maxHoverChars`, 2500) — era o único trecho do contexto sem cap.
 - Usos reais com ±2 linhas de contexto (antes ±1) e quantidade configurável (`selwiki.maxUsages`, padrão 3).
