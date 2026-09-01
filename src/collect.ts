@@ -70,7 +70,7 @@ async function extractDefinition(
     loc.range.start.character,
   );
   const stub = isStubPath(loc.uri.fsPath);
-  const limit = stub ? Math.min(maxChars, 1500) : maxChars;
+  const limit = stub ? Math.min(maxChars, 3000) : maxChars;
   const text = inner
     ? summarizeDefinition(doc.getText(asRange(inner.range)), inner, limit)
     : cap(doc.getText(loc.range), limit);
@@ -127,11 +127,11 @@ export async function collectSelectionContext(
   editor: vscode.TextEditor,
   maxSelected: number,
   maxDefinition: number,
-  maxUsageChars = 300,
+  maxUsageChars = 500,
   opts: { maxHoverChars?: number; maxUsages?: number } = {},
 ): Promise<LspPack> {
-  const maxHoverChars = opts.maxHoverChars ?? 2500;
-  const maxUsages = opts.maxUsages ?? 3;
+  const maxHoverChars = opts.maxHoverChars ?? 6000;
+  const maxUsages = opts.maxUsages ?? 5;
   const doc = editor.document;
   const sel = editor.selection;
   let range: vscode.Range = sel.isEmpty

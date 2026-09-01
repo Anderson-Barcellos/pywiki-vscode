@@ -28,6 +28,7 @@ const originEl = document.getElementById("origin") as HTMLElement;
 const documentationEl = document.getElementById("documentation") as HTMLElement;
 const signalsEl = document.getElementById("signals") as HTMLElement;
 const costEl = document.getElementById("cost") as HTMLElement;
+const sessionCostEl = document.getElementById("session-cost") as HTMLElement;
 const openDefinitionBtn = document.getElementById("open-definition") as HTMLButtonElement;
 const refreshBtn = document.getElementById("refresh") as HTMLButtonElement;
 const copyBtn = document.getElementById("copy") as HTMLButtonElement;
@@ -221,6 +222,11 @@ window.addEventListener("message", (event: MessageEvent) => {
         threadAnswer.classList.remove("streaming");
         threadAnswer = undefined;
       }
+      break;
+    case "session-cost":
+      sessionCostEl.textContent = msg.text ?? "";
+      sessionCostEl.title = msg.title ?? "";
+      show(sessionCostEl, Boolean(msg.text));
       break;
     case "cost":
       costEl.textContent = msg.text ?? "";

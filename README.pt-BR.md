@@ -19,11 +19,11 @@ modelo a usar **somente** esse contexto. O que não está no código ou na docum
 1. **Tu seleciona** — uma palavra, uma chamada, um bloco. Com o cursor parado numa palavra, o PyWiki
    expande para o símbolo inteiro via `SelectionRange` do LSP.
 2. **O LSP entrega a evidência** — hover, assinatura, definição (preferindo o código do workspace ao
-   stub da biblioteca), e algumas referências reais do projeto (3 por padrão) para servir de exemplo.
+   stub da biblioteca), e algumas referências reais do projeto (5 por padrão) para servir de exemplo.
 3. **O modelo organiza a wiki** — em markdown, seguindo uma hierarquia fixa e regras rígidas
    anti-invenção. Renderiza com syntax highlight na sidebar.
 4. **Cache local** — o mesmo símbolo com o mesmo contexto não gera nova chamada. Uma consulta típica
-   custa menos de R$ 0,01.
+   custa menos de R$ 0,01 — o header mostra o acumulado da sessão atual do VS Code.
 
 ## Instalação e chave
 
@@ -55,11 +55,11 @@ liga `selwiki.autoExplain` (e, opcionalmente, `selwiki.explainOnCursor`).
 | `selwiki.autoExplain` | `false` | Atualiza a wiki sozinha quando a seleção muda (com debounce), se o painel estiver visível |
 | `selwiki.explainOnCursor` | `false` | Com `autoExplain`, também dispara ao só posicionar o cursor |
 | `selwiki.debounceMs` | `500` | Espera após a última mudança de seleção no modo automático |
-| `selwiki.maxSelectedChars` | `8000` | Teto do texto selecionado enviado ao modelo |
-| `selwiki.maxDefinitionChars` | `4000` | Teto do corpo da definição (stubs de biblioteca são cortados em 1500) |
-| `selwiki.maxUsageChars` | `300` | Teto de cada uso real do projeto (±2 linhas ao redor da chamada) usado como evidência dos exemplos |
-| `selwiki.maxUsages` | `3` | Quantos usos reais entram como evidência (1–10) |
-| `selwiki.maxHoverChars` | `2500` | Teto do hover do language server — docstrings gigantes de biblioteca são cortadas aqui |
+| `selwiki.maxSelectedChars` | `16000` | Teto do texto selecionado enviado ao modelo |
+| `selwiki.maxDefinitionChars` | `10000` | Teto do corpo da definição (stubs de biblioteca são cortados em 3000) |
+| `selwiki.maxUsageChars` | `500` | Teto de cada uso real do projeto (±2 linhas ao redor da chamada) usado como evidência dos exemplos |
+| `selwiki.maxUsages` | `5` | Quantos usos reais entram como evidência (1–15) |
+| `selwiki.maxHoverChars` | `6000` | Teto do hover do language server — docstrings gigantes de biblioteca são cortadas aqui |
 
 ## O que chega na wiki
 

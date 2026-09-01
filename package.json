@@ -2,7 +2,7 @@
   "name": "selwiki",
   "displayName": "PyWiki",
   "description": "Evidence-based wiki for the symbol under your cursor: LSP context + real project usages, explained by an LLM in the sidebar. No hallucinated params.",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "publisher": "anders",
   "icon": "media/icon.png",
   "private": true,
@@ -107,29 +107,29 @@
         },
         "selwiki.maxSelectedChars": {
           "type": "number",
-          "default": 8000,
+          "default": 16000,
           "description": "Teto do texto selecionado enviado ao modelo."
         },
         "selwiki.maxDefinitionChars": {
           "type": "number",
-          "default": 4000,
+          "default": 10000,
           "description": "Teto do corpo da definição (função/classe) enviado ao modelo."
         },
         "selwiki.maxUsageChars": {
           "type": "number",
-          "default": 300,
+          "default": 500,
           "description": "Teto de cada uso real do workspace enviado como evidência para os exemplos (±2 linhas ao redor da chamada)."
         },
         "selwiki.maxUsages": {
           "type": "number",
-          "default": 3,
+          "default": 5,
           "minimum": 1,
-          "maximum": 10,
+          "maximum": 15,
           "description": "Quantos usos reais do workspace entram como evidência dos exemplos."
         },
         "selwiki.maxHoverChars": {
           "type": "number",
-          "default": 2500,
+          "default": 6000,
           "description": "Teto do texto de hover do language server enviado ao modelo (docstrings enormes de biblioteca são cortadas aqui)."
         }
       }

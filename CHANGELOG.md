@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.5 — 2026-09-01
+- Contador de custo acumulado da sessão no header (`sessão ≈ US$ …`), com chamadas e tokens no tooltip. Cache local não soma.
+- Tetos de contexto mais generosos, já que uma chamada custa fração de centavo: seleção 16000, definição 10000 (stub 3000), uso 500 chars × 5 usos (máx. 15), hover 6000. Saída da wiki até 2400 tokens (era 1400) e do seguimento até 1600.
+
 ## 0.6.4 — 2026-09-01
 - Minichat de perguntas com cara de chat: pergunta em balão, resposta com rótulo "PyWiki", e blocos de código compactos — o botão "Copiar" agora é discreto e só aparece no hover (antes herdava o botão cheio do VS Code e o nome da linguagem ficava solto).
 

@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { WikiCache } from "./cache";
+import { WikiCache, type WikiUsage } from "./cache";
 import { collectSelectionContext } from "./collect";
 import { readFishOpenAiKey } from "./fishKey";
 import { streamLuna } from "./luna";
@@ -22,6 +22,29 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
   let wikiCostUsd: number | undefined;
   let threadCostUsd = 0;
   let threadTurns = 0;
+  // Custo acumulado da sessão do VS Code (só chamadas reais; cache local não soma).
+  let sessionCostUsd = 0;
+  let sessionCalls = 0;
+  let sessionInputTokens = 0;
+  let sessionOutputTokens = 0;
+  const sessionStartedAt = new Date();
+
+  const addSessionUsage = (usage: WikiUsage | undefined) => {
+    if (!usage) {
+      return;
+    }
+    sessionCostUsd += usage.estimatedCostUsd;
+    sessionCalls += 1;
+    sessionInputTokens += usage.inputTokens;
+    sessionOutputTokens += usage.outputTokens;
+    provider.showSessionCost({
+      costUsd: sessionCostUsd,
+      calls: sessionCalls,
+      inputTokens: sessionInputTokens,
+      outputTokens: sessionOutputTokens,
+      startedAt: sessionStartedAt,
+    });
+  };
 
   const resetThread = (responseId?: string, cost?: number) => {
     activeResponseId = responseId;
@@ -67,12 +90,12 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     try {
       pack = await collectSelectionContext(
         editor,
-        cfg.get("maxSelectedChars", 8000),
-        cfg.get("maxDefinitionChars", 4000),
-        cfg.get("maxUsageChars", 300),
+        cfg.get("maxSelectedChars", 16000),
+        cfg.get("maxDefinitionChars", 10000),
+        cfg.get("maxUsageChars", 500),
         {
-          maxHoverChars: cfg.get("maxHoverChars", 2500),
-          maxUsages: cfg.get("maxUsages", 3),
+          maxHoverChars: cfg.get("maxHoverChars", 6000),
+          maxUsages: cfg.get("maxUsages", 5),
         },
       );
     } catch (error) {
@@ -123,7 +146,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
         model: profile.model,
         reasoningEffort: profile.reasoningEffort,
         messages: buildMessages(pack),
-        maxCompletionTokens: 1400,
+        maxCompletionTokens: 2400,
         signal: request.signal,
         onDelta: (text) => {
           if (current === generation) {
@@ -145,6 +168,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
         createdAt: Date.now(),
       });
       resetThread(result.responseId, result.usage?.estimatedCostUsd);
+      addSessionUsage(result.usage);
       provider.showDone(pack, result.markdown, {
         cached: false,
         responseId: result.responseId,
@@ -190,7 +214,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
         reasoningEffort: cfg.get("reasoningEffort", "low"),
         messages: [{ role: "user", content: question }],
         previousResponseId: previous,
-        maxCompletionTokens: 1000,
+        maxCompletionTokens: 1600,
         signal: request.signal,
         onDelta: (text) => {
           if (current === generation) {
@@ -208,6 +232,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
       activeResponseId = result.responseId ?? previous;
       threadCostUsd += result.usage?.estimatedCostUsd ?? 0;
       threadTurns += 1;
+      addSessionUsage(result.usage);
       provider.showFollowUpDone({ title, wikiCostUsd, threadCostUsd, turns: threadTurns });
     } catch (error) {
       if ((error as { name?: string }).name === "AbortError") {

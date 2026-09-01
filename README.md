@@ -19,11 +19,11 @@ model to use **only** that context. Anything not in the code or its documentatio
 1. **You select** — a word, a call, a block. With the cursor resting on a word, PyWiki expands to the
    whole symbol via the LSP `SelectionRange` request.
 2. **The LSP provides the evidence** — hover, signature, definition (preferring workspace code over
-   library stubs), and a few real references from the project (3 by default) to serve as examples.
+   library stubs), and a few real references from the project (5 by default) to serve as examples.
 3. **The model writes the wiki** — in markdown, following a fixed hierarchy and strict
    anti-hallucination rules. Rendered with syntax highlighting in the sidebar.
 4. **Local cache** — the same symbol with the same context never triggers a new call. A typical query
-   costs a fraction of a cent.
+   costs a fraction of a cent — the header shows the running total for the current VS Code session.
 
 ## Install and API key
 
@@ -57,11 +57,11 @@ its own, enable `selwiki.autoExplain` (and optionally `selwiki.explainOnCursor`)
 | `selwiki.autoExplain` | `false` | Update the wiki automatically when the selection changes (debounced), if the panel is visible |
 | `selwiki.explainOnCursor` | `false` | With `autoExplain`, also trigger on plain cursor moves |
 | `selwiki.debounceMs` | `500` | Wait after the last selection change in automatic mode |
-| `selwiki.maxSelectedChars` | `8000` | Cap on the selected text sent to the model |
-| `selwiki.maxDefinitionChars` | `4000` | Cap on the definition body (library stubs are cut at 1500) |
-| `selwiki.maxUsageChars` | `300` | Cap on each real project usage (±2 lines around the call) used as evidence for examples |
-| `selwiki.maxUsages` | `3` | How many real usages are included as evidence (1–10) |
-| `selwiki.maxHoverChars` | `2500` | Cap on the language server hover — huge library docstrings are cut here |
+| `selwiki.maxSelectedChars` | `16000` | Cap on the selected text sent to the model |
+| `selwiki.maxDefinitionChars` | `10000` | Cap on the definition body (library stubs are cut at 3000) |
+| `selwiki.maxUsageChars` | `500` | Cap on each real project usage (±2 lines around the call) used as evidence for examples |
+| `selwiki.maxUsages` | `5` | How many real usages are included as evidence (1–15) |
+| `selwiki.maxHoverChars` | `6000` | Cap on the language server hover — huge library docstrings are cut here |
 
 ## What the wiki contains
 

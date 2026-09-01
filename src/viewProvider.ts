@@ -22,6 +22,8 @@ export class WikiViewProvider implements vscode.WebviewViewProvider {
   private messageHandler?: (message: ViewMessage) => void;
   private messageSub?: vscode.Disposable;
 
+  private sessionCost?: SessionCost;
+
   constructor(private readonly extensionUri: vscode.Uri) {}
 
   get visible(): boolean {
@@ -132,6 +134,13 @@ export class WikiViewProvider implements vscode.WebviewViewProvider {
     this.post({ type: "done", markdown, canFollowUp: Boolean(meta.responseId) });
   }
 
+  /** Custo acumulado da sessão: vai no badge do header e sobrevive à recriação do webview. */
+  showSessionCost(meta: SessionCost): void {
+    this.sessionCost = meta;
+    const view = sessionCostView(meta);
+    this.post({ type: "session-cost", text: view.text, title: view.title });
+  }
+
   showFollowUpStart(question: string, title: string): void {
     this.post({ type: "busy", value: true });
     this.post({ type: "status", text: `Luna · seguimento · ${title}` });
@@ -175,6 +184,7 @@ export class WikiViewProvider implements vscode.WebviewViewProvider {
   private renderHtml(webview: vscode.Webview): string {
     const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, "media", "main.js"));
     const iconUri = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, "media", "icon.png"));
+    const session = this.sessionCost ? sessionCostView(this.sessionCost) : undefined;
     const nonce = String(Date.now()) + Math.random().toString(16).slice(2);
     return `<!DOCTYPE html>
 <html lang="pt-BR">
@@ -223,6 +233,8 @@ export class WikiViewProvider implements vscode.WebviewViewProvider {
       border-radius: 4px;
       display: block;
     }
+    header #session-cost { margin-left: auto; white-space: nowrap; }
+    header #session-cost + #status { margin-left: 0; }
     #status {
       font-size: 11px;
       opacity: .75;
@@ -788,6 +800,7 @@ export class WikiViewProvider implements vscode.WebviewViewProvider {
 <body>
   <header>
     <span class="brand"><img src="${iconUri}" alt="" />PyWiki</span>
+    <span id="session-cost" class="badge cost${session ? "" : " hidden"}" title="${escapeAttr(session?.title ?? "")}">${escapeAttr(session?.text ?? "")}</span>
     <span id="status">pronto</span>
   </header>
   <div id="evidence" class="hidden">
@@ -853,4 +866,24 @@ export class WikiViewProvider implements vscode.WebviewViewProvider {
 </body>
 </html>`;
   }
+}
+
+export interface SessionCost {
+  costUsd: number;
+  calls: number;
+  inputTokens: number;
+  outputTokens: number;
+  startedAt: Date;
+}
+
+export function sessionCostView(meta: SessionCost): { text: string; title: string } {
+  const started = meta.startedAt.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+  return {
+    text: `sessão ≈ US$ ${meta.costUsd.toFixed(4)}`,
+    title: `${meta.calls} chamada(s) ao Luna desde ${started} · ${meta.inputTokens} tokens de entrada · ${meta.outputTokens} de saída. Respostas do cache local não contam.`,
+  };
+}
+
+function escapeAttr(text: string): string {
+  return text.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 }
