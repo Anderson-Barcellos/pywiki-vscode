@@ -164,5 +164,13 @@
     "pylance",
     "docstring",
     "symbol"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Anderson-Barcellos/pywiki-vscode.git"
+  },
+  "homepage": "https://github.com/Anderson-Barcellos/pywiki-vscode#readme",
+  "bugs": {
+    "url": "https://github.com/Anderson-Barcellos/pywiki-vscode/issues"
+  }
 }
