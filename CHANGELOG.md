@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.4 — 2026-09-01
+- Minichat de perguntas com cara de chat: pergunta em balão, resposta com rótulo "PyWiki", e blocos de código compactos — o botão "Copiar" agora é discreto e só aparece no hover (antes herdava o botão cheio do VS Code e o nome da linguagem ficava solto).
+
 ## 0.6.3 — 2026-09-01
 - "Parâmetros" vira lista empilhada (um item por parâmetro) em vez de tabela — a tabela de 4 colunas não cabia em sidebar estreita. Tabelas que ainda aparecerem ficam mais compactas.
 - Ícone do PyWiki em destaque (72px) no topo da página inicial.

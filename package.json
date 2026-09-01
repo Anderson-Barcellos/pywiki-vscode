@@ -2,7 +2,7 @@
   "name": "selwiki",
   "displayName": "PyWiki",
   "description": "Evidence-based wiki for the symbol under your cursor: LSP context + real project usages, explained by an LLM in the sidebar. No hallucinated params.",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "publisher": "anders",
   "icon": "media/icon.png",
   "private": true,

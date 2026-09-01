@@ -428,33 +428,119 @@ export class WikiViewProvider implements vscode.WebviewViewProvider {
     .hljs-comment { color: var(--vscode-editorLineNumber-foreground); font-style: italic; }
     .hljs-built_in, .hljs-type { color: var(--vscode-symbolIcon-classForeground, #4ec9b0); }
     #thread {
-      padding: 0 14px 8px;
+      padding: 6px 14px 10px;
+      border-top: 1px solid var(--py-border);
     }
     .thread-item {
-      border-top: 1px solid var(--py-border);
-      padding: 10px 0 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 8px 0;
     }
     .thread-q {
-      font-weight: 600;
-      margin: 0 0 6px;
+      align-self: flex-end;
+      max-width: 88%;
+      margin: 0;
+      padding: 6px 10px;
+      border-radius: 12px 12px 3px 12px;
+      background: color-mix(in srgb, var(--py-accent) 14%, var(--vscode-sideBar-background));
+      border: 1px solid color-mix(in srgb, var(--py-accent) 35%, transparent);
+      font-size: .95em;
+      line-height: 1.4;
+      overflow-wrap: anywhere;
     }
-    .thread-q::before {
-      content: "? ";
-      color: var(--py-accent);
+    .thread-a {
+      position: relative;
+      max-width: 100%;
+      padding: 2px 0 0 10px;
+      border-left: 2px solid color-mix(in srgb, var(--py-accent) 45%, transparent);
+      font-size: .95em;
     }
-    .thread-a p, .thread-a li { margin: 6px 0; line-height: 1.45; }
-    .thread-a pre {
-      overflow-x: auto;
-      padding: 8px 10px;
+    .thread-a::before {
+      content: "PyWiki";
+      display: block;
+      margin-bottom: 2px;
+      font-size: 10px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--vscode-descriptionForeground);
+    }
+    .thread-a p, .thread-a li { margin: 5px 0; line-height: 1.45; }
+    .thread-a ul, .thread-a ol { padding-left: 18px; }
+    .thread-a h1, .thread-a h2, .thread-a h3, .thread-a h4 {
+      margin: 8px 0 4px;
+      font-size: 1em;
+      font-weight: 650;
+    }
+    .thread-a .wiki-hero { margin: 0; padding: 0; }
+    .thread-a .wiki-eyebrow { display: none; }
+    .thread-a .code-shell {
+      position: relative;
+      margin: 6px 0 8px;
+      border: 1px solid var(--vscode-panel-border, rgba(127,127,127,.28));
       border-radius: 6px;
       background: var(--vscode-textCodeBlock-background);
+      overflow: hidden;
+    }
+    .thread-a .code-toolbar {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      z-index: 1;
+    }
+    .thread-a .code-toolbar span { display: none; }
+    .thread-a .code-toolbar button {
+      margin: 0;
+      padding: 2px 6px;
+      border: 1px solid var(--vscode-panel-border, rgba(127,127,127,.3));
+      border-radius: 4px;
+      background: var(--vscode-sideBar-background);
+      color: var(--vscode-descriptionForeground);
+      font: inherit;
+      font-size: 10px;
+      opacity: 0;
+      transition: opacity .12s;
+    }
+    .thread-a .code-shell:hover .code-toolbar button,
+    .thread-a .code-toolbar button:focus-visible { opacity: 1; }
+    .thread-a .code-toolbar button:hover {
+      background: var(--vscode-toolbar-hoverBackground);
+      color: var(--vscode-foreground);
+    }
+    .thread-a pre {
+      margin: 0;
+      overflow-x: auto;
+      padding: 8px 10px;
+      background: transparent;
+      font-size: .92em;
     }
     .thread-a :not(pre) > code {
       padding: 1px 4px;
       border-radius: 4px;
       background: var(--vscode-textCodeBlock-background);
     }
+    .thread-a .error { color: var(--vscode-errorForeground); }
     .thread-a.streaming { opacity: .85; }
+    .thread-a.streaming > :last-child::after {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      margin-left: 4px;
+      border-radius: 50%;
+      background: var(--py-accent);
+      animation: py-pulse 1s ease-in-out infinite;
+    }
+    .thread-a.streaming::before {
+      content: "PyWiki";
+      width: auto;
+      height: auto;
+      margin: 0 0 2px;
+      background: none;
+      animation: none;
+    }
+    @keyframes py-pulse { 0%,100% { opacity: .25 } 50% { opacity: 1 } }
+    @media (prefers-reduced-motion: reduce) { .thread-a.streaming > :last-child::after { animation: none; } }
     #ask {
       display: flex;
       gap: 6px;
