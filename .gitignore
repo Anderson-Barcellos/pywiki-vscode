@@ -1,0 +1,7 @@
+node_modules/
+out/
+media/main.js
+media/main.js.map
+*.vsix
+.vscode-test/
+.remember/

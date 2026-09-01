@@ -1,0 +1,143 @@
+{
+  "name": "selwiki",
+  "displayName": "PyWiki",
+  "description": "Wiki confiável do símbolo selecionado: contexto LSP, evidência da fonte e GPT-5.6 Luna na sidebar.",
+  "version": "0.6.0",
+  "publisher": "anders",
+  "icon": "media/icon.png",
+  "private": true,
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Machine Learning",
+    "Other"
+  ],
+  "activationEvents": [
+    "onView:selwiki.view"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "selwiki",
+          "title": "PyWiki",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "selwiki": [
+        {
+          "type": "webview",
+          "id": "selwiki.view",
+          "name": "Wiki",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "selwiki.explainSelection",
+        "title": "PyWiki: Explicar seleção"
+      },
+      {
+        "command": "selwiki.setApiKey",
+        "title": "PyWiki: Definir chave OpenAI"
+      },
+      {
+        "command": "selwiki.clearCache",
+        "title": "PyWiki: Limpar cache"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "selwiki.explainSelection",
+          "group": "navigation@90",
+          "when": "editorTextFocus"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "selwiki.explainSelection",
+        "key": "ctrl+alt+w",
+        "mac": "cmd+alt+w",
+        "when": "editorTextFocus"
+      }
+    ],
+    "configuration": {
+      "title": "PyWiki",
+      "properties": {
+        "selwiki.model": {
+          "type": "string",
+          "default": "gpt-5.6-luna",
+          "description": "Modelo OpenAI usado para a wiki do símbolo."
+        },
+        "selwiki.autoExplain": {
+          "type": "boolean",
+          "default": true,
+          "description": "Atualiza a sidebar quando uma seleção explícita muda (com debounce), se o painel estiver visível."
+        },
+        "selwiki.explainOnCursor": {
+          "type": "boolean",
+          "default": false,
+          "description": "Também explica ao apenas posicionar o cursor. Desligado por padrão para evitar chamadas acidentais."
+        },
+        "selwiki.debounceMs": {
+          "type": "number",
+          "default": 500,
+          "minimum": 150,
+          "maximum": 5000,
+          "description": "Espera após a última mudança de seleção antes de explicar."
+        },
+        "selwiki.reasoningEffort": {
+          "type": "string",
+          "enum": [
+            "none",
+            "low",
+            "medium",
+            "high"
+          ],
+          "default": "low",
+          "description": "Esforço de reasoning do Luna. low = rápido e barato."
+        },
+        "selwiki.maxSelectedChars": {
+          "type": "number",
+          "default": 8000,
+          "description": "Teto do texto selecionado enviado ao modelo."
+        },
+        "selwiki.maxDefinitionChars": {
+          "type": "number",
+          "default": 4000,
+          "description": "Teto do corpo da definição (função/classe) enviado ao modelo."
+        },
+        "selwiki.maxUsageChars": {
+          "type": "number",
+          "default": 300,
+          "description": "Teto de cada uso real do workspace (até 3) enviado como evidência para os exemplos."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test --experimental-strip-types src/*.test.ts",
+    "package": "npm run compile && npx --yes @vscode/vsce package --no-dependencies --allow-missing-repository"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "@types/vscode": "^1.85.0",
+    "esbuild": "^0.25.4",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "dompurify": "^3.2.6",
+    "highlight.js": "11.12.0",
+    "marked": "^15.0.12"
+  }
+}

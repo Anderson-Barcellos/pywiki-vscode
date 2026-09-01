@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="PyWiki">
+  <!-- Página + monograma P + grafo. currentColor mantém contraste nativo na Activity Bar. -->
+  <defs>
+    <mask id="pywiki-cutout">
+      <rect width="24" height="24" fill="black"/>
+      <path fill="white" d="M5.5 2h8.25L20 8.25V20.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 20.5v-17A1.5 1.5 0 0 1 5.5 2Z"/>
+      <path fill="black" d="M13 2.6v5.15c0 .69.56 1.25 1.25 1.25h5.15V7.4h-4.8V2.6H13ZM7 6.5v10.8h2.15v-3.2h2.05a3.8 3.8 0 1 0 0-7.6H7Zm2.15 2.05h1.95a1.75 1.75 0 1 1 0 3.5H9.15v-3.5Z" fill-rule="evenodd"/>
+      <path fill="none" stroke="black" stroke-width="1.2" stroke-linecap="round" d="m11.8 17.4 2.55-1.55 2.3 1.35"/>
+      <circle cx="11.65" cy="17.5" r="1.1" fill="black"/>
+      <circle cx="14.45" cy="15.75" r="1.1" fill="black"/>
+      <circle cx="16.8" cy="17.2" r="1.1" fill="black"/>
+    </mask>
+  </defs>
+  <rect width="24" height="24" fill="currentColor" mask="url(#pywiki-cutout)"/>
+</svg>

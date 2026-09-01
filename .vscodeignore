@@ -1,0 +1,14 @@
+.vscode/**
+src/**
+tsconfig.json
+esbuild.mjs
+.gitignore
+**/*.map
+**/*.ts
+node_modules/**
+*.vsix
+landing-render*.png
+
+.remember/**
+.codex_remember/**
+*.vsix
