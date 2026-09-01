@@ -272,7 +272,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     }
     const editor = vscode.window.activeTextEditor;
     if (!editor || !shouldScheduleAutoExplain({
-      autoExplain: cfg.get("autoExplain", true),
+      autoExplain: cfg.get("autoExplain", false),
       viewVisible: provider.visible,
       selectionEmpty: editor.selection.isEmpty,
       explainOnCursor: cfg.get("explainOnCursor", false),

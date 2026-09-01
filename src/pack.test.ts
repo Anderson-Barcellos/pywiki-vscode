@@ -220,3 +220,9 @@ test("usages entram no cacheKey e no prompt como seção própria", () => {
   assert.doesNotMatch(buildMessages(sample)[1]?.content ?? "", /## Usos no projeto/);
   assert.match(SYSTEM_PROMPT, /usos reais/i);
 });
+
+test("prompt pede prosa narrativa simples no 'O que faz' e explicação dos argumentos", () => {
+  assert.match(SYSTEM_PROMPT, /## O que faz\n[^\n]*prosa/i);
+  assert.match(SYSTEM_PROMPT, /linguagem simples/i);
+  assert.match(SYSTEM_PROMPT, /## Parâmetros\n(?:[^\n]*\n){1,3}[^\n]*(?:parágrafo|prosa)/i);
+});
